@@ -1,0 +1,43 @@
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+  application:
+    name: auth-server
+  datasource:
+    druid:
+      url: jdbc:mysql://10.1.74.191:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      username: root
+      password: xiann
+      validation-query: SELECT 'x'
+      max-wait: 60000
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  redis:
+    database: 1
+    host: 192.168.44.246
+    port: 6379
+    password: test
+    timeout: 3000
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+server:
+  port: 7777
+#  servlet:
+#    contextPath: /uaa #web基路径
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://user:123456@localhost:8080/eureka/
+  instance:
+    prefer-ip-address: true
+system:
+  user:
+    password:
+      secret: uvwxyz
+logging:
+  level:
+    root: info

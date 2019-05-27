@@ -1,0 +1,152 @@
+<style>
+    #main-tabs {height: 100%;}
+    #main-tabs .am-tabs-nav{position: relative;z-index: 101;}
+    #main-tabs .am-tabs-bd{height: 100%;top: -40px;padding-top: 40px;}
+    #main-tabs .am-tabs-bd .am-tab-panel{overflow: auto;height: 100%;}
+    .am-tabs-bd {
+        -moz-user-select: text !important;
+        -webkit-user-select: text !important;
+        -ms-user-select: text !important;
+        user-select: text !important;
+    }
+    .am-offcanvas, .am-offcanvas-bar, .am-offcanvas-bar:after {
+        background-color: transparent;
+    }
+    #main-switch-menu{
+        position: absolute;
+        z-index: 110;
+        top: 49px;
+        color: #727272;
+        font-size: 12px;
+        height: 40px;
+        line-height: 40px;
+        cursor: pointer;
+        width: 20px;
+        border: 1px solid #dedede;
+        padding-left: 4px;
+    }
+    .am-offcanvas-bar {
+        top:49px;
+    }
+    #main-header {
+        position: fixed;
+        top:0;right: 0;left: 0;
+        height: 50px;
+        line-height: 50px;
+        border-bottom: 1px solid #c4c4c4;
+        background-color: #f2ffe3;
+        z-index: 9999;
+    }
+    #main-body {
+        position: relative;
+        height: 100%;
+        padding-top: 49px;
+    }
+</style>
+<div id="main-header">
+    <h1 style="padding-left: 20px"><span class="am-icon-user"></span>&nbsp;&nbsp;欢迎您，${loginer.realName!}</h1>
+</div>
+<div id="main-body">
+    <!-- 菜单切换按钮 -->
+    <div class="" id="main-switch-menu"><span class="am-icon-chevron-left"></span></div>
+    <!-- 侧边栏内容 -->
+    <div id="main-left" class="am-offcanvas" style="width: 200px;">
+        <div class="am-offcanvas-bar" style="width: 200px;">
+            <ul class="am-list admin-sidebar-list" id="collapase-nav-1">
+                <li  class="am-panel">
+                    <a data-am-collapse="{parent: '#collapase-nav-1'}" href="#/"><i class="am-icon-home am-margin-left-sm"></i> 首页</a>
+                </li>
+
+                <li class="am-panel">
+                    <a data-am-collapse="{parent: '#collapase-nav-1', target: '#user-nav'}">
+                        <i class="am-icon-users am-margin-left-sm"></i> 人员管理 <i class="am-icon-angle-right am-fr am-margin-right"></i>
+                    </a>
+                    <ul class="am-list am-collapse admin-sidebar-sub" id="user-nav">
+                        <li><a href="#/userAdd"><i class="am-icon-user am-margin-left-sm"></i> 添加人员 </a></li>
+                        <li><a href="#/userList/0"><i class="am-icon-user am-margin-left-sm"></i> 人员列表 </a></li>
+                    </ul>
+                </li>
+
+                <li class="am-panel">
+                    <a data-am-collapse="{parent: '#collapase-nav-1', target: '#company-nav'}">
+                        <i class="am-icon-table am-margin-left-sm"></i> 单位（部门）管理 <i class="am-icon-angle-right am-fr am-margin-right"></i>
+                    </a>
+                    <ul class="am-list am-collapse admin-sidebar-sub" id="company-nav">
+                        <li><a href="#/companyAdd"><span class="am-icon-table am-margin-left-sm"></span> 添加单位（部门） </a></li>
+                        <li><a href="#/companyList/0"><span class="am-icon-table am-margin-left-sm"></span> 单位（部门）列表 </a></li>
+                    </ul>
+                </li>
+
+                <li class="am-panel">
+                    <a data-am-collapse="{parent: '#collapase-nav-1', target: '#role-nav'}">
+                        <i class="am-icon-table am-margin-left-sm"></i> 角色管理 <i class="am-icon-angle-right am-fr am-margin-right"></i>
+                    </a>
+                    <ul class="am-list am-collapse admin-sidebar-sub" id="role-nav">
+                        <li><a href="#/roleAdd"><span class="am-icon-table am-margin-left-sm"></span> 添加角色 </a></li>
+                        <li><a href="#/roleList/0"><span class="am-icon-table am-margin-left-sm"></span> 角色列表 </a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="am-tabs" id="main-tabs" data-am-tabs="{noSwipe: 1}">
+        <ul class="am-tabs-nav am-nav am-nav-tabs">
+            <li class="am-active"><a href="#tab1" style="padding-left: 30px;">恣意</a></li>
+            <li><a href="#tab2">等候</a></li>
+            <li><a href="#tab3">流浪</a></li>
+        </ul>
+
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                置身人群中<br>你只需要被淹没 享受 沉默<br>退到人群后<br>你只需给予双手 微笑 等候
+                <div style="width: 120%;height: 100px;background-color: #0a6999"></div>
+                <div style="width: 10%;height: 1500px;background-color: #0a6999"></div>
+            </div>
+            <div class="am-tab-panel am-fade" id="tab2">
+                走在忠孝东路<br>徘徊在茫然中<br>在我的人生旅途<br>选择了多少错误<br>我在睡梦中惊醒<br>感叹悔言无尽<br>恨我不能说服自己<br>接受一切教训<br>让生命去等候<br>等候下一个漂流<br>让生命去等候<br>等候下一个伤口
+            </div>
+            <div class="am-tab-panel am-fade" id="tab3">
+                我就这样告别山下的家，我实在不愿轻易让眼泪留下。我以为我并不差不会害怕，我就这样自己照顾自己长大。我不想因为现实把头低下，我以为我并不差能学会虚假。怎样才能够看穿面具里的谎话？别让我的真心散的像沙。如果有一天我变得更复杂，还能不能唱出歌声里的那幅画？
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('title').text('欢迎您，${loginer.realName!}');
+        var $mainLeft = $('#main-left');
+        var $mainSwitchMenu = $('#main-switch-menu');
+        //监听侧边栏打开关闭事件
+        $mainLeft.on('open.offcanvas.amui',function () {
+            $('body').animate({'padding-left':'200px'});
+            $mainSwitchMenu.html('<span class="am-icon-chevron-left"></span>');
+        }).on('close.offcanvas.amui',function () {
+            $('body').animate({'padding-left':'0'});
+            $mainSwitchMenu.html('<span class="am-icon-chevron-right"></span>');
+        });
+
+        var localSwitch = localStorage.getItem('x-client-switch');
+        if(localSwitch === 'open'){
+            //自动打开侧边栏
+            $mainLeft.offCanvas({noSwipe: 1});
+        }else{
+            $mainSwitchMenu.html('<span class="am-icon-chevron-right"></span>');
+        }
+
+        //关闭窗口变化 自动关闭侧边栏
+        $(window).off('resize.offcanvas.amui');
+
+        //禁用触控事件。
+        $('#main-tabs').tabs({noSwipe: 1});
+        $mainSwitchMenu.on('click', function() {
+            if($mainLeft.hasClass('am-active')){
+                $(this).html('<span class="am-icon-chevron-right"></span>');
+                localStorage.setItem('x-client-switch','close');
+            }else{
+                $(this).html('<span class="am-icon-chevron-left"></span>');
+                localStorage.setItem('x-client-switch','open');
+            }
+            $mainLeft.offCanvas($mainLeft.hasClass('am-active')?'close':'open');
+        });
+    });
+</script>

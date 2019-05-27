@@ -1,0 +1,68 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: service-client
+  datasource:
+    druid:
+      url: jdbc:mysql://10.1.74.191:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      username: root
+      password: xiann
+      validation-query: SELECT 'x'
+      max-wait: 60000
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  mvc:
+    async:
+      request-timeout: 20000
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/static/
+  #thymeleaf 配置
+  freemarker:
+    cache: false
+    enabled: true
+    suffix: .html
+#    prefix: classpath:/templates/
+#    suffix: .html
+#    charset: UTF-8
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://user:123456@localhost:8080/eureka/      #服务注册中信地址，含有BASIC认证的用户名和密码
+  instance:
+    prefer-ip-address: true         #将IP注册到服务注册中心
+
+#放开所有节点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+#启用断路器
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 8000
+        readTimeout: 10000
+#断路器超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+
+logging:
+  level:
+    root: info
+    java.sql: debug
+
+auth:
+  key: __DEFAULT_KEY__

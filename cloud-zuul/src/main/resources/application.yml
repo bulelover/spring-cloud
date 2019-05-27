@@ -1,0 +1,40 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://user:123456@localhost:8080/eureka/
+      instance:
+        prefer-ip-address: true
+server:
+  port: 7010
+spring:
+  application:
+    name: service-zuul
+zuul:
+  routes:
+    api-a:
+      path: /provider/**
+      service-id: service-provider
+    api-b:
+      path: /client/**
+      service-id: service-client
+    static:
+      path: /static/**
+#      stripPrefix: false
+      url: http://localhost:7010/client/static
+    api-c:
+      path: /auth/**
+      service-id: auth-server
+  host:
+    max-total-connections: 500
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 15000
+ribbon:
+  ReadTimeout: 20000
+  ConnectTimeout: 20000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
