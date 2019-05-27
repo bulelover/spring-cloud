@@ -11,5 +11,5 @@ Spring-Cloud 分布式微服务
 简单的应用
 - 使用AmazeUI作为前端UI框架
 - Freemarker作为前端模板引擎
-- 实现简单的分布式登录认证，Redis+Token
+- 实现简单的分布式登录认证，Redis+Token （很抱歉，不会使用OAUTH2，那个更规范）
 - 最终实现简单的CMS系统
