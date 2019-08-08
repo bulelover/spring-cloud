@@ -47,14 +47,35 @@
 .index-body{
     position: absolute;
     left: 200px;
-    padding: 5px;
     right: 0;
     height: 100%;
     color: #4a4a4a;
 }
-
+.body-box{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 5px;
+}
 
 /*查询条件*/
+.search-form{
+    border-bottom: 1px solid #9fcdff;
+    margin: 0 -5px;
+    padding: 5px;
+    height: 53px;
+}
+.page-container{
+    position: absolute;
+    top: 63px;
+    bottom: 0;
+    left: 5px;
+    right: 5px;
+    overflow: auto;
+}
+
 .search-form:after{
     clear: both;
 }

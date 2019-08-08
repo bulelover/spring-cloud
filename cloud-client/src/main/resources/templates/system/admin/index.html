@@ -1,6 +1,4 @@
-<link href="/static/app.css" rel="stylesheet">
-<link href="/static/utils/xTree/jquery-xtree.css" rel="stylesheet">
-<script type="text/javascript" src="/static/utils/xTree/jquery-xTree.js"></script>
+<#include "index_css.html"/>
 <div class="index-header">
     <span class="index-title">欢迎您，${loginer.realName!}</span>
 </div>
@@ -15,9 +13,7 @@
         </div>
 
     </div>
-    <div id="indexBody" class="index-body">
-        内容
-    </div>
+    <div id="indexBody" class="index-body"></div>
 </div>
 <div class="index-footer">
     <span class="index-title">Copyright © 2018-${.now?string('yyyy')} cloud-demo  <a href="/client">client.cloud.com</a></span>

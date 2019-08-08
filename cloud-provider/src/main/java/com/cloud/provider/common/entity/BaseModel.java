@@ -17,6 +17,11 @@ public abstract class BaseModel<T extends Model> extends Model {
      */
     @TableField(exist = false)
     private int pageSize=20;
+    /**
+     * 每页条数
+     */
+    @TableField(exist = false)
+    private String search;
 
     public int getPageCurrent() {
         return pageCurrent;
@@ -32,5 +37,13 @@ public abstract class BaseModel<T extends Model> extends Model {
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
     }
 }

@@ -1,31 +1,22 @@
-<h1>this is user list page</h1>
-<form class="search-form">
-    <div>
-        <input class="form-control" name="name">
-    </div>
-    <div class="search-btn">
-        <input class="btn btn-primary" type="button" value="查询" data-on="click:query">
-    </div>
-</form>
-<div data-id="container" class="container-fluid">
-
+<div class="body-box">
+    <table id="dataTable"></table>
 </div>
 <script data-id="listTpl" type="text/html">
-    <table class="table table-bordered">
+    <table class="table table-bordered" data-toggle="table" data-height="200">
         <tr>
-            <th>序号</th>
-            <th>姓名</th>
-            <th>手机号</th>
-            <th>身份证号</th>
-            <th>状态</th>
+            <th class="text-center">序号</th>
+            <th class="text-center">姓名</th>
+            <th class="text-center">手机号</th>
+            <th class="text-center">身份证号</th>
+            <th class="text-center">状态</th>
         </tr>
         {{each records}}
             <tr>
-                <td>{{$index}}</td>
+                <td class="text-center">{{$index}}</td>
                 <td title="{{$value.realName}}">{{$value.realName}}</td>
                 <td title="{{$value.phone}}">{{$value.phone}}</td>
                 <td title="{{$value.idNo}}">{{$value.idNo}}</td>
-                <td>{{if $value.state==1}} 正常 {{else if $value.state==0}} 禁用 {{/if}}</td>
+                <td class="text-center">{{if $value.state==1}} 正常 {{else if $value.state==0}} 禁用 {{/if}}</td>
             </tr>
         {{/each}}
     </table>
@@ -33,19 +24,94 @@
 <script>
     $(function () {
         var $form = $box.find('form');
+        var $table = $('#dataTable');
+        $table.bootstrapTable({
+            method: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            cache: false,
+            striped: true,                              //是否显示行间隔色
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            search: true,
+            showRefresh: true,
+            searchOnEnterKey: true,
+            url: '/provider/user/query',
+            height: $box.height() - 10,
+            // width: $box.width(),
+            showColumns: true,
+            pagination: true,
+            queryParamsType: 'limit',
+            queryParams: function (params) {
+                console.log(Math.floor(params.offset/params.limit)+1);
+                return JSON.stringify({
+                    pageSize: params.limit, // 每页要显示的数据条数
+                    pageCurrent: Math.floor(params.offset/params.limit)+1, // 每页显示数据的开始行号
+                    sort: params.sort, // 要排序的字段
+                    sortOrder: params.order, // 排序规则
+                    username: xClientUsername,
+                    token: xClientToken,
+                    search : params.search
+                });
+            },
+            minimumCountColumns: 2,
+            pageNumber: 1,        //初始化加载第一页，默认第一页
+            pageSize: 20,            //每页的记录行数（*）
+            pageList: [10, 20, 50, 100],       //可供选择的每页的行数（*）
+            uniqueId: "id",      //每一行的唯一标识，一般为主键列
+            showExport: true,
+            exportDataType: 'all',
+            responseHandler: function (res) {
+                return res.model.records
+            },
+            columns: [
+                {
+                    field: '',
+                    title: '序号',
+                    formatter: function (value, row, index) {
+                        return index + 1;
+                    }
+                }, {
+                    field: 'realName',
+                    title: '真实姓名',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'phone',
+                    title: '手机号',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'idNo',
+                    title: '身份证号',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'state',
+                    title: '状态',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    formatter: function (value, row, index) {
+                        return value === '0' ? '禁用' : '正常';
+                    }
+                }]
+        });
+
+        var search = function() {
+            $table.bootstrapTable('refreshOptions', {
+                url: '/provider/user/query'
+            });
+
+        };
+
+
         //事件集合绑定
         $box.qon({
             query : function () {
-                $.provider({
-                    url : '/user/query',
-                    data : $form.serializeJson(),
-                    success : function (res) {
-                        if(res.flag === 1){
-                            var tpl = template.render($box.findDataId('listTpl').html(), res.model);
-                            $box.findDataId('container').html(tpl);
-                        }
-                    }
-                });
+                search();
             }
         });
     });
