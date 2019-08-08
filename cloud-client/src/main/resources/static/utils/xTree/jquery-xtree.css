@@ -1,0 +1,178 @@
+@charset "UTF-8";
+.xtree-box{
+    padding-left: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    -moz-user-select:none;/*火狐*/
+    -webkit-user-select:none;/*webkit浏览器*/
+    -ms-user-select:none;/*IE10*/
+    -khtml-user-select:none;/*早期浏览器*/
+    user-select:none;
+}
+.xtree-box i,.xtree-box span ,.xtree-box a {
+    font-size: 12px;
+    width: 12px;
+    text-align: center;
+}
+.xtree-box .xtree-folder>i{
+    position: absolute;
+    top: 16px;
+    left: -15px;
+    background: #fff;
+    z-index: 1;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.xtree-box:before{
+    display: inline-block;
+    content: "";
+    position: absolute;
+    top: 4px;
+    bottom: 14px;
+    left: 11px;
+    border: 1px dotted #67b2dd;
+    border-width: 0 0 0 1px;
+    z-index: 1;
+}
+.xtree-box .switch-icon{
+    right: 10px;
+    position: absolute;
+    background-color: #fff;
+}
+
+.xtree-box .xtree-folder .xtree-header,.xtree-box .xtree-item{
+    margin: 0;
+    padding: 8px 3px 8px 10px;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    position: relative;
+    width: 100%;
+    white-space: nowrap;
+}
+.xtree-box .xtree-folder .xtree-header:hover, .xtree-box .xtree-item:hover{
+    cursor: default;
+    background-color: rgba(103, 178, 221, 0.1);
+}
+.xtree-box .xtree-folder .xtree-content{
+    margin-left: 23px;
+    position: relative;
+}
+.xtree-box .xtree-folder .xtree-content:before{
+    display: inline-block;
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: -9px;
+    bottom: 14px;
+    left: -9px;
+    border: 1px dotted #67b2dd;
+    border-width: 0 0 0 1px;
+}
+.xtree-box .xtree-folder , .xtree-box .xtree-item{
+    position: relative;
+}
+.xtree-box .xtree-folder:before, .xtree-box .xtree-item:before{
+    display: inline-block;
+    content: "";
+    position: absolute;
+    top: 21px;
+    left: -8px;
+    width: 18px;
+    height: 0;
+    border-top: 1px dotted #67b2dd;
+    z-index: 1;
+}
+
+.xtree-box .xtree-btn-group{
+    display: inline-block;
+    position: relative;
+    left: 7px;
+}
+
+.xtree-box .xtree-btn-group i{
+    display: inline-block;
+    position: relative;
+    margin-right: 3px;
+    cursor: pointer;
+}
+
+/* middle */
+.xtree-box.middle:before{
+    left: 13px;
+    bottom: 16px;
+}
+.xtree-box.middle .xtree-folder>i{
+    left: -14px;
+    font-size: 16px;
+}
+
+.xtree-box.middle i,.xtree-box.middle span ,.xtree-box.middle a {
+    font-size: 14px;
+    width: 14px;
+}
+
+.xtree-box.middle .xtree-folder .xtree-content{
+    margin-left: 24px;
+}
+.xtree-box.middle .xtree-folder .xtree-header,.xtree-box.middle .xtree-item {
+    padding-left: 12px;
+}
+
+.xtree-box.middle .xtree-folder .xtree-content:before{
+    top: -12px;
+    bottom: 19px;
+    left: -7px;
+}
+
+.xtree-box.middle .xtree-folder:before, .xtree-box.middle .xtree-item:before{
+    top: 20px;
+    left: -6px;
+    width: 18px;
+}
+
+.xtree-box.middle .xtree-folder>i{
+    top: 13px;
+}
+
+
+/* large */
+.xtree-box.large:before{
+    left: 15px;
+    bottom: 18px;
+}
+.xtree-box.large .xtree-folder>i{
+    top: 8px;
+    left: -13px;
+    font-size: 18px;
+}
+
+.xtree-box.large i,.xtree-box.large span ,.xtree-box.large a {
+    font-size: 16px;
+    width: 16px;
+}
+
+.xtree-box.large .xtree-folder .xtree-content{
+    margin-left: 25px;
+}
+.xtree-box.large .xtree-folder .xtree-header,.xtree-box.large .xtree-item {
+    padding-left: 14px;
+}
+
+.xtree-box.large .xtree-folder .xtree-content:before{
+    top: -9px;
+    bottom: 18px;
+    left: -5px;
+}
+
+.xtree-box.large .xtree-folder:before, .xtree-box.large .xtree-item:before{
+    top: 20px;
+    left: -4px;
+    width: 18px;
+}
+
+.xtree-box.large .xtree-folder>i{
+    top: 12px;
+}

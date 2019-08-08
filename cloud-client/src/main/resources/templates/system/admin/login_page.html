@@ -1,0 +1,119 @@
+<script type="text/html" id="login_page">
+    <div style="text-align: center;">
+        <div style="padding-top: 20px;">
+            <h1 style="margin-bottom: 0;">祝您生活愉快~</h1>
+            <div>&nbsp;<span id="loginTips" style="color: red;height: 20px;">------</span>&nbsp;</div>
+        </div>
+    </div>
+    <hr>
+    <div class="card" style="width: 450px;margin:20px auto;">
+        <div class="card-header" style="background: #9fcdff;color: #0001ff;"><b>欢迎登录</b></div>
+        <div class="card-body">
+            <form id="loginForm" class="layui-form layui-form-pane" role="form">
+                <div class="form-group">
+                    <label for="username">账 号</label>
+                    <input type="text" id="username" class="form-control" onkeyup="this.value=$.trim(this.value);" name="username" placeholder="请输入账号">
+                </div>
+                <div class="form-group">
+                    <label for="password">密 码</label>
+                    <input type="password" id="password" name="password"  class="form-control" placeholder="请输入密码" autocomplete="off">
+                </div>
+                <div class="text-center">
+                    <button type="button" id="loginBtn" class="btn btn-primary" style="width: 200px;">登 录</button>
+                </div>
+            </form>
+        </div>
+<#--        <div class="card-footer"><span style="color: #888888;">© 2019 X, Inc. Licensed under X license.</span></div>-->
+    </div>
+</script>
+<script>
+    $(function () {
+        //session存在自动登录
+        var xClientUsername = sessionStorage.getItem("x-client-username");
+        var xClientToken = sessionStorage.getItem("x-client-token");
+        //do something
+        var $body = $('body');
+        if(!($.isBlank(xClientUsername) || $.isBlank(xClientToken))){
+            $.ajaxPrefix({
+                url : '/admin',
+                type:'GET',
+                async: false,
+                data : {
+                    token: xClientToken,
+                    username : xClientUsername
+                },
+                success : function (res) {
+                    if ( typeof res === "object" ) {
+                        if(!res.flag){
+                            // alert(res.errorMsg);
+                            //自动登录失败 ====
+                            $body.html($('#login_page').html());
+                            $('#loginTips').text(res.errorMsg+"，请重新登录").fadeIn('fast');
+                        }
+                        return;
+                    }
+                    $body.html(res);
+                    // console.log($.base64.decode(res.result,true).toObj());
+                },
+                error : function (err) {
+                    //自动登录失败 ====
+                    console.error(err);
+                    //$('#loginTips').text(err.responseText).fadeIn('fast');
+                }
+            });
+        }else{
+            $body.html($('#login_page').html());
+        }
+        var $tips = $('#loginTips');
+        $('#loginBtn').on('click',function () {
+            var username = $('#username').val();
+            $tips.text('正在登录中，请稍后...');
+            setTimeout(function () {
+                $.ajaxPrefix({
+                    url : '/main/auth',
+                    contentType: "application/json",
+                    data : $('#loginForm').serializeJsonSfy(),
+                    type : 'POST',
+                    success : function (res) {
+                        $tips.hide();
+                        if(res.flag){
+                            //本地存储登录session信息
+                            sessionStorage.setItem("x-client-username", username);
+                            sessionStorage.setItem("x-client-token", res.token);
+                            $.ajaxPrefix({
+                                url : '/admin',
+                                type:'POST',
+                                data : {
+                                    token: res.token,
+                                    username : username
+                                },
+                                success : function (res) {
+                                    if ( typeof res === "object" ) {
+                                        if(!res.flag){
+                                            $tips.text(res.errorMsg).fadeIn('fast');
+                                            return;
+                                        }
+                                        return;
+                                    }
+                                    $body.html(res);
+                                },
+                                error : function (err) {
+                                    console.error(err);
+                                    $tips.text(err.responseText).fadeIn('fast');
+                                }
+                            });
+                        } else{
+                            $tips.text(res.errorMsg).fadeIn('fast');
+                        }
+
+                    },
+                    error : function (err) {
+                        console.error(err);
+                        $tips.text(err.responseText).fadeIn('fast');
+
+                    }
+                });
+            },500);
+        });
+    });
+</script>

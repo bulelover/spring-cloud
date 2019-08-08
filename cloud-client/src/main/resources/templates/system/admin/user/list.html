@@ -1,0 +1,52 @@
+<h1>this is user list page</h1>
+<form class="search-form">
+    <div>
+        <input class="form-control" name="name">
+    </div>
+    <div class="search-btn">
+        <input class="btn btn-primary" type="button" value="查询" data-on="click:query">
+    </div>
+</form>
+<div data-id="container" class="container-fluid">
+
+</div>
+<script data-id="listTpl" type="text/html">
+    <table class="table table-bordered">
+        <tr>
+            <th>序号</th>
+            <th>姓名</th>
+            <th>手机号</th>
+            <th>身份证号</th>
+            <th>状态</th>
+        </tr>
+        {{each records}}
+            <tr>
+                <td>{{$index}}</td>
+                <td title="{{$value.realName}}">{{$value.realName}}</td>
+                <td title="{{$value.phone}}">{{$value.phone}}</td>
+                <td title="{{$value.idNo}}">{{$value.idNo}}</td>
+                <td>{{if $value.state==1}} 正常 {{else if $value.state==0}} 禁用 {{/if}}</td>
+            </tr>
+        {{/each}}
+    </table>
+</script>
+<script>
+    $(function () {
+        var $form = $box.find('form');
+        //事件集合绑定
+        $box.qon({
+            query : function () {
+                $.provider({
+                    url : '/user/query',
+                    data : $form.serializeJson(),
+                    success : function (res) {
+                        if(res.flag === 1){
+                            var tpl = template.render($box.findDataId('listTpl').html(), res.model);
+                            $box.findDataId('container').html(tpl);
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>

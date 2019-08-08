@@ -1,0 +1,25 @@
+<script>
+    //公共变量
+    var $box = $('#indexBody');
+
+    $(function () {
+        $('title').text('欢迎您，${loginer.realName!}');
+        $('#indexMenu').xTree({
+            headerAuto : true,
+            single : true,
+            openFirstMenu : true,
+            headerClick : function(){
+
+            },
+            itemClick : function (data) {
+                $.ajaxPrefix({
+                    url : data.url,
+                    success : function (res) {
+                        $('#indexBody').html(res);
+                    }
+                });
+            }
+        });
+    });
+
+</script>
