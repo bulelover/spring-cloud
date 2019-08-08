@@ -34,8 +34,7 @@ public class LoginController {
     @ResponseBody
     public Res auth(@RequestBody AuthVo vo){
         vo.setKey(key);
-        Res res = authFeign.authenticate(vo);
-        return res;
+        return authFeign.authenticate(vo);
     }
 
     @RequestMapping("/admin")

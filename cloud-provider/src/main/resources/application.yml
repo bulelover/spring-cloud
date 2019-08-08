@@ -3,6 +3,15 @@ server:
 spring:
   application:
     name: service-provider
+  datasource:
+    druid:
+      url: jdbc:mysql://10.1.74.191:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      username: root
+      password: xiann
+      validation-query: SELECT 'x'
+      max-wait: 60000
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
 eureka:
   client:
     serviceUrl:
@@ -16,3 +25,11 @@ management:
     web:
       exposure:
         include: '*'
+logging:
+  level:
+    root : warn
+    com :
+      cloud :
+        provider : debug
+
+

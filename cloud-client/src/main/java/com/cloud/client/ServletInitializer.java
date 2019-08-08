@@ -5,6 +5,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 /**
  * 使用Tomcat启动
+ * @author SouthXia
  */
 public class ServletInitializer extends SpringBootServletInitializer {
 

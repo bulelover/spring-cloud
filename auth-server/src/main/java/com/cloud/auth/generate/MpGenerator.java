@@ -1,19 +1,15 @@
 package com.cloud.auth.generate;
 
 import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /* 代码生成器 */
 public class MpGenerator {
@@ -30,7 +26,7 @@ public class MpGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         gc.setAuthor("SouthXia");
-        gc.setOutputDir("F:/JQ_WORK/work/spring-cloud/auth-server/src/main/java");
+        gc.setOutputDir("F:/JQ_WORK/work/spring-cloud/cloud-provider/src/main/java");
         gc.setFileOverride(false);// 是否覆盖同名文件，默认是false
         gc.setActiveRecord(true);// 不需要ActiveRecord特性的请改为false
         gc.setEnableCache(false);// XML 二级缓存
@@ -65,7 +61,7 @@ public class MpGenerator {
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
-        strategy.setTablePrefix(new String[] { "base_" });// 此处可以修改为您的表前缀
+        strategy.setTablePrefix(new String[] { "base_sys_" });// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         strategy.setInclude(new String[] { "base_sys_user" }); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
@@ -85,13 +81,13 @@ public class MpGenerator {
         // public static final String ID = "test_id";
         // strategy.setEntityColumnConstant(true);
         // 【实体】是否为构建者模型（默认 false）
-        // public User setName(String name) {this.name = name; return this;}
+        // public user setName(String name) {this.name = name; return this;}
         // strategy.setEntityBuilderModel(true);
         mpg.setStrategy(strategy);
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.cloud.auth.user");
+        pc.setParent("com.cloud.provider.system.user");
 //        pc.setModuleName("test");
         mpg.setPackageInfo(pc);
 

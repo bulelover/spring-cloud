@@ -18,14 +18,15 @@ import java.io.PrintWriter;
 
 /**
  * 权限认证过滤器
+ * @author SouthXia
  */
-@WebFilter(filterName = "authFilter", urlPatterns = "/*")
-public class AuthFilter implements Filter {
+@WebFilter(filterName = "authClientFilter", urlPatterns = "/*")
+public class AuthClientFilter implements Filter {
 
     @Autowired
     private AuthFeign authFeign;
 
-    private Logger logger = LoggerFactory.getLogger(AuthFilter.class);
+    private Logger logger = LoggerFactory.getLogger(AuthClientFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -43,7 +44,7 @@ public class AuthFilter implements Filter {
             return;
         }
         //登录跳转
-        if(requestURI.equals("/") || requestURI.equals("/login")){
+        if("/".equals(requestURI) || "/login".equals(requestURI)){
             request.getRequestDispatcher("/main").forward(request,response);
             return;
         }

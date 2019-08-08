@@ -1,8 +1,7 @@
-package com.cloud.client.system.user.feign;
+package com.cloud.provider.system.user.feign;
 
 import com.cloud.auth.entity.Res;
 import com.cloud.auth.vo.AuthVo;
-import com.cloud.client.common.utils.SysUtil;
 import feign.hystrix.FallbackFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

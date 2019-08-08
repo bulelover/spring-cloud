@@ -14,6 +14,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * 加入 @EnableHystrix  启用熔断器
  * 加入 @EnableHystrixDashboard  启用熔断器监控
  * 加入 @ServletComponentScan  启用Servlet注解扫描 扫描监听器 过滤器
+ * @author SouthXia
  */
 @ServletComponentScan
 @EnableFeignClients

@@ -5,155 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>欢迎您</title>
     <!-- Set render engine for 360 browser -->
     <meta name="renderer" content="webkit">
-    <!-- No Baidu Siteapp-->
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <link rel="icon" type="image/png" href="/static/AmazeUI/assets/i/favicon.png">
-    <!-- Add to homescreen for Chrome on Android -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" sizes="192x192" href="/static/AmazeUI/assets/i/app-icon72x72@2x.png">
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
-    <link rel="apple-touch-icon-precomposed" href="/static/AmazeUI/assets/i/app-icon72x72@2x.png">
-    <!-- Tile icon for Win8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
-    <meta name="msapplication-TileColor" content="#0e90d2">
-    <link type="text/css" rel="stylesheet" href="/static/AmazeUI/assets/css/amazeui.min.css">
-    <link rel="stylesheet" href="/static/AmazeUI/assets/css/app.css">
-    <script type="text/html" id="login_page">
-        <div style="text-align: center;">
-            <div class="am-g" style="padding-top: 20px;">
-                <h1 style="margin-bottom: 0;">祝您生活愉快~</h1>
-                <div>&nbsp;<span id="loginTips" style="color: red;">------</span>&nbsp;</div>
-            </div>
-        </div>
-        <hr>
-        <div class="am-g">
-            <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
-                <h3>欢迎登录</h3>
-                <hr>
-                <form id="loginForm" class="am-form">
-                    <label for="username">账号:</label>
-                    <input type="text" id="username" onkeyup="this.value=$.trim(this.value);" name="username" placeholder="请输入账号">
-                    <br>
-                    <label for="password">密码:</label>
-                    <input type="password" name="password" id="password" placeholder="请输入密码">
-                    <br>
-                    <div class="am-cf">
-                        <input type="button" id="loginBtn" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
-                        <#--<input type="submit" name="" value="忘记密码 ^_^? " class="am-btn am-btn-default am-btn-sm am-fr">-->
-                    </div>
-                </form>
-                <hr>
-                <p>© 2019 X, Inc. Licensed under X license.</p>
-            </div>
-        </div>
-    </script>
+    <!-- 引入 Bootstrap -->
+    <link rel="stylesheet" href="/static/lib/bootStrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/lib/fontAwesome/css/font-awesome.min.css">
+    <script type="text/javascript" src="/static/lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/utils/jquery.utils.js"></script>
+    <script type="text/javascript" src="/static/lib/jquery/template/template-web.js"></script>
+    <script type="text/javascript" src="/static/lib/bootStrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- HTML5 Shiv 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+    <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;overflow: hidden;">
-</body>
-<script type="text/javascript" src="/static/plugins/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="/static/plugins/jquery/base64js/jquery.base64.js"></script>
-<script type="text/javascript" src="/static/utils/jquery.utils.js"></script>
-<script type="text/javascript" src="/static/AmazeUI/assets/js/amazeui.min.js"></script>
-<script type="text/javascript" src="/static/AmazeUI/assets/js/amazeui.widgets.helper.min.js"></script>
-<!--<![endif]-->
-<!--[if lte IE 8 ]>
-<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
-<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="/static/AmazeUI/assets/js/amazeui.ie8polyfill.min.js"></script>
-<![endif]-->
+  <#include 'login_page.html'/>
 <script>
-    //初始化加载
-    $(function () {
-        //session存在自动登录
-        var xClientUsername = sessionStorage.getItem("x-client-username");
-        var xClientToken = sessionStorage.getItem("x-client-token");
-        if(!($.isBlank(xClientUsername) || $.isBlank(xClientToken))){
-            $.ajaxPrefix({
-                url : '/admin',
-                type:'GET',
-                data : {
-                    token: xClientToken,
-                    username : xClientUsername
-                },
-                success : function (res) {
-                    if ( typeof res === "object" ) {
-                        if(!res.flag){
-                            //自动登录失败 ====
-                            // $('#loginTips').text(res.errorMsg).fadeIn('fast');
-                        }
-                        return;
-                    }
-                    $('body').html(res);
-                    // console.log($.base64.decode(res.result,true).toObj());
-                },
-                error : function (err) {
-                    //自动登录失败 ====
-                    console.error(err);
-                    // $('#loginTips').text(err.responseText).fadeIn('fast');
-                }
-            });
-        }else{
-            $('body').html($('#login_page').html());
-        }
-
-        $('#loginBtn').on('click',function () {
-            var username = $('#username').val();
-            $('#loginTips').text('正在登录中，请稍后...');
-            setTimeout(function () {
-                $.ajaxPrefix({
-                    url : '/main/auth',
-                    contentType: "application/json",
-                    data : $('#loginForm').serializeJsonSfy(),
-                    type : 'POST',
-                    success : function (res) {
-                        $('#loginTips').hide();
-                        if(res.flag){
-                            //本地存储登录session信息
-                            sessionStorage.setItem("x-client-username", username);
-                            sessionStorage.setItem("x-client-token", res.token);
-                            $.ajaxPrefix({
-                                url : '/admin',
-                                type:'POST',
-                                data : {
-                                    token: res.token,
-                                    username : username
-                                },
-                                success : function (res) {
-                                    if ( typeof res === "object" ) {
-                                        if(!res.flag){
-                                            $('#loginTips').text(res.errorMsg).fadeIn('fast');
-                                        }
-                                        return;
-                                    }
-                                    $('body').html(res);
-                                },
-                                error : function (err) {
-                                    console.error(err);
-                                    $('#loginTips').text(err.responseText).fadeIn('fast');
-                                }
-                            });
-                        } else{
-                            $('#loginTips').text(res.errorMsg).fadeIn('fast');
-                        }
-
-                    },
-                    error : function (err) {
-                        console.error(err);
-                        $('#loginTips').text(err.responseText).fadeIn('fast');
-
-                    }
-                });
-            },500);
-
-        });
-    });
 </script>
+</body>
 </html>
