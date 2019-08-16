@@ -1,0 +1,147 @@
+<div class="body-box">
+    <div id="toolbar">
+        <button data-id="add" type="button" class="btn btn-primary"><i class="fa fa-plus"></i> 新增</button>
+        <form class="form-search-box" style="height: 242px;">
+            <div class="form-group">
+                <label>摘要</label>
+                <input name="title" data-title="摘要" class="form-control" placeholder="">
+            </div>
+            <div class="form-group">
+                <label>内容</label>
+                <input name="content" data-title="内容" class="form-control" placeholder="">
+            </div>
+            <div class="text-center">
+                <button type="button" data-id="searchBtn" class="btn btn-primary search-btn">查 询</button>
+                <button type="button" data-id="closeSearchBtn" class="btn btn-danger">关 闭</button>
+            </div>
+        </form>
+    </div>
+    <table id="dataTable"></table>
+</div>
+<script>
+    $(function () {
+        var $table = $('#dataTable');
+        //新增 、编辑
+        var openEdit = function(id){
+            id = id || '';
+            $box.openWindow({
+                target : $.sys.url.client('/page?tg=gdws/sql/edit'),
+                url : $.sys.url.provider('/sqlRecord/query/'+id),
+                width : 1024,
+                height: 530
+            });
+        };
+        $table.bootstrapTable($.sys.BSTableParams({
+            url: $.sys.url.provider('/sqlRecord/query'),
+            onPostHeader : function(){
+                var $toolbar = $('#toolbar');
+                var $form = $('#toolbar .form-search-box');
+                var $searchInput = $('.bootstrap-table .search-input');
+                $toolbar.findDataId('add').off().on('click',function () {
+                    openEdit();
+                });
+
+                $searchInput.css('cursor','pointer').attr('readonly',true);
+                $searchInput.off().on('click',function () {
+                    $form.show().animate({top:'10px'},100);
+                });
+                $form.findDataId('closeSearchBtn').off().on('click',function () {
+                    $form.animate({top:'0'},50,function () {
+                        $form.hide();
+                    });
+                });
+                $form.findDataId('searchBtn').off().on('click',function () {
+                    $table.bootstrapTable('refreshOptions',{});
+                });
+            },
+            queryParams: function (params) {
+                var options = $table.bootstrapTable('getOptions');
+                if (!options.pagination) {
+                    params.limit = options.totalRows;
+                }
+                var $form = $('#toolbar .form-search-box');
+                var data = $.extend({},$form.serializeJson(),{
+                    pageSize: params.limit, // 每页要显示的数据条数
+                    pageCurrent: Math.floor(params.offset/params.limit)+1, // 每页显示数据的开始行号
+                    pageOrderField: params.sort, // 要排序的字段
+                    pageOrder: params.order === 'asc', // 排序规则
+                    username: xClientUsername,
+                    token: xClientToken,
+                    pageSearch : params.search
+                });
+                return JSON.stringify(data);
+            },
+            columns: [
+                {
+                    field: '',
+                    title: '序号',
+                    align : 'center',
+                    formatter: function (value, row, index) {
+                        var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条
+                        var pageNumber = $table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页
+                        return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号
+                    }
+                },{
+                    field: 'operate',
+                    title: '操作',
+                    align : 'center',
+                    events : {
+                        'click .data-edit' : function (e, value, row, index) {
+                            openEdit(row.id);
+                        }
+                    },
+                    formatter: function (value, row, index) {
+                        return '<button class="btn btn-sm btn-outline-primary data-edit"><i class="fa fa-edit"></i></button>';
+                    }
+                }, {
+                    field: 'title',
+                    title: '摘要',
+                    align: 'left',
+                    valign: 'middle',
+                    // sortable: true,
+                    formatter: function (value, row, index) {
+                        return '<span class="ellipsis" title="'+value+'" style="width: 200px;">'+value+'</span>';
+                    }
+                }, {
+                    field: 'content',
+                    title: '内容',
+                    align: 'left',
+                    valign: 'middle',
+                    formatter: function (value, row, index) {
+                        return '<span class="ellipsis" style="max-width: 600px;" title="'+value+'">'+value+'</span>';
+                    }
+                }, {
+                    field: 'gzdb121',
+                    title: '贵州121',
+                    align: 'center',
+                    valign: 'middle',
+                    formatter: function (value, row, index) {
+                        return value == '0' ? '<span class="badge badge-lg badge-danger">未执行</span>' : '<span class="badge badge-lg badge-secondary">已执行</span>';
+                    }
+                }, {
+                    field: 'xagldb',
+                    title: '西安高陵区',
+                    align: 'center',
+                    valign: 'middle',
+                    formatter: function (value, row, index) {
+                        return value == 0 ? '<span class="badge badge-lg badge-danger">未执行</span>' : '<span class="badge badge-lg badge-secondary">已执行</span>';
+                    }
+                }, {
+                    field: 'ctime',
+                    title: '创建时间',
+                    align: 'center',
+                    valign: 'middle',
+                    formatter: function (value, row, index) {
+                        return value;
+                    }
+                }]
+        }));
+
+        $(window).resize(function () {
+            //监听窗口变化时 更改表格窗体大小
+            $table.bootstrapTable('resetView',{
+                height: $box.height() - 10
+            });
+        });
+    });
+</script>

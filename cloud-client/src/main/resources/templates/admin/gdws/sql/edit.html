@@ -1,0 +1,41 @@
+<div class="window-c-header">村室SQL管理 > 新增</div>
+<div class="window-c-body">
+    <form data-id="sqlRecordForm" class="form-horizontal" role="form">
+        <input type="hidden" name="id" value="{{model.id}}">
+        <div class="form-group">
+            <label>摘要</label>
+            <input type="text" class="form-control" name="title" placeholder="请输入摘要" autocomplete="off"
+            value="{{model.title}}">
+        </div>
+        <div class="form-group">
+            <label>内容</label>
+            <textarea class="form-control" rows="10" name="content" placeholder="请输入内容">{{model.content}}</textarea>
+        </div>
+    </form>
+</div>
+<div class="window-c-footer">
+    <button type="button" data-id="saveBtn" class="btn btn-success"><i class="fa fa-save"></i> 保 存</button>
+</div>
+<script>
+    $(function () {
+        var $form = $box.findDataId('sqlRecordForm');
+        $box.findDataId("saveBtn").on('click',function () {
+            $.ajaxJson({
+                url : $.sys.url.provider('/sqlRecord/save'),
+                data : $form.serializeJson(),
+                success : function (res) {
+                    if(res.flag === 1) {
+                        $.sys.modal('保存成功！');
+                        if($form.findName('id').val() === '') {
+                            //保存成功重置表单
+                            $form[0].reset();
+                        }
+                        $('#dataTable').bootstrapTable('refresh');
+                    }else {
+                        $.sys.modal(res.errorMsg);
+                    }
+                }
+            });
+        });
+    });
+</script>

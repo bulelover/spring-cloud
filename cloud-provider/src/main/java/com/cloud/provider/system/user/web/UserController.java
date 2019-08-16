@@ -33,12 +33,16 @@ public class UserController {
 
     @RequestMapping("/query")
     @ResponseBody
-    public Res query(@RequestBody User user){
-        Page<User> page = new Page<>(user.getPageCurrent(), user.getPageSize());
+    public Res query(@RequestBody User entity){
+        Page<User> page = new Page<>(entity.getPageCurrent(), entity.getPageSize());
         Wrapper<User> wrapper = new EntityWrapper<>();
-        wrapper.like(!StringUtils.isEmpty(user.getSearch()),"real_name",user.getSearch())
-        .or().like(!StringUtils.isEmpty(user.getSearch()),"id_no",user.getSearch());
+        wrapper.like(!StringUtils.isEmpty(entity.getPageSearch()),"real_name",entity.getPageSearch())
+        .or().like(!StringUtils.isEmpty(entity.getPageSearch()),"id_no",entity.getPageSearch())
+        .orderBy("realName".equals(entity.getPageOrderField()),"real_name",entity.getPageOrder())
+        .orderBy("id");
+        int count = userService.selectCount(wrapper);
         page= userService.selectPage(page,wrapper);
+        page.setTotal(count);
         return Res.success(page);
     }
 }

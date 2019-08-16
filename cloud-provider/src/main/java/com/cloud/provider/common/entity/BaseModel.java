@@ -18,10 +18,45 @@ public abstract class BaseModel<T extends Model> extends Model {
     @TableField(exist = false)
     private int pageSize=20;
     /**
-     * 每页条数
+     * 搜索框
      */
     @TableField(exist = false)
-    private String search;
+    private String pageSearch;
+    /**
+     * 排序方式
+     */
+    @TableField(exist = false)
+    private boolean pageOrder = true;
+
+    /**
+     * 排序字段
+     */
+    @TableField(exist = false)
+    private String pageOrderField;
+
+    public String getPageSearch() {
+        return pageSearch;
+    }
+
+    public void setPageSearch(String pageSearch) {
+        this.pageSearch = pageSearch;
+    }
+
+    public boolean getPageOrder() {
+        return pageOrder;
+    }
+
+    public void setPageOrder(boolean pageOrder) {
+        this.pageOrder = pageOrder;
+    }
+
+    public String getPageOrderField() {
+        return pageOrderField;
+    }
+
+    public void setPageOrderField(String pageOrderField) {
+        this.pageOrderField = pageOrderField;
+    }
 
     public int getPageCurrent() {
         return pageCurrent;
@@ -39,11 +74,4 @@ public abstract class BaseModel<T extends Model> extends Model {
         this.pageSize = pageSize;
     }
 
-    public String getSearch() {
-        return search;
-    }
-
-    public void setSearch(String search) {
-        this.search = search;
-    }
 }

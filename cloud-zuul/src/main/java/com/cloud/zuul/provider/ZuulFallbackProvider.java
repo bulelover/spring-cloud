@@ -46,7 +46,7 @@ public class ZuulFallbackProvider implements FallbackProvider {
             // 响应体
             @Override
             public InputStream getBody() throws IOException {
-                String errMsg = "服务拥挤或不可用";
+                String errMsg = "服务拥挤或不可用,请稍后再次访问";
                 if("service-provider".equals(route)){
                     errMsg = "provider接口"+errMsg;
                 }

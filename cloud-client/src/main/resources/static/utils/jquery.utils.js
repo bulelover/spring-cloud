@@ -2,10 +2,6 @@
  * 扩展静态工具类
  */
 jQuery.extend({
-    //默认项目请求根路径
-    clientPath : '/client',
-    //登录认证根路径
-    // authPath : '/auth',
     //判断非空
     isEmpty : function (data) {
         return (data == "" || data == undefined || data == null) ? true : false;
@@ -26,12 +22,12 @@ jQuery.extend({
     ajaxPrefix : function (prefix,options) {
         if ( typeof prefix === "object" ) {
             options = prefix;
-            prefix = this.clientPath;
+            prefix = '';
         }
         options.url = prefix+options.url;
         var xClientUsername = sessionStorage.getItem("x-client-username");
         var xClientToken = sessionStorage.getItem("x-client-token");
-        if(options.data && options.data.length>0){
+        if(options.data){
             options.data['username'] = xClientUsername;
             options.data['token'] = xClientToken;
         }else{
@@ -49,9 +45,6 @@ jQuery.extend({
         }
         $.ajax(options);
     },
-    provider : function(options){
-        $.ajaxJson('provider',options);
-    },
     /**
      * 默认使用POST JSON形式发送请求，ajax参数可被覆盖 携带token参数
      * @param prefix 请求前缀，默认使用clientPath变量初始值
@@ -60,7 +53,7 @@ jQuery.extend({
     ajaxJson : function (prefix,options) {
         if ( typeof prefix === "object" ) {
             options = prefix;
-            prefix = this.clientPath;
+            prefix = '';
         }
         options.url = prefix+options.url;
 
@@ -70,7 +63,7 @@ jQuery.extend({
         });
         var xClientUsername = sessionStorage.getItem("x-client-username");
         var xClientToken = sessionStorage.getItem("x-client-token");
-        if(options.data && options.data.length>0){
+        if(options.data){
             options.data['username'] = xClientUsername;
             options.data['token'] = xClientToken;
         }else{
@@ -232,6 +225,112 @@ jQuery.extend({
     $.fn.findDataId = function (id) {
         return $(this).find('[data-id="'+id+'"]');
     };
+    //TODO 打开窗口公共方法
+    $.fn.openWindow = function (options) {
+        var defaults = {
+            target : '', //静态模板选择器 仅支持百度template.js  或者请求路径
+            url : '', //url 数据加载路径
+            height : 376,
+            width : 600,
+            //关闭前回调 返回false可阻断关闭
+            beforeClose : function () {
+                return true;
+            },
+            //关闭后回调
+            afterClose : function () {
+            }
+        };
+        var settings = $.extend({},defaults,options);
+        var $this = $(this);
+        var tpl = '<div class="window-mask">' +
+            '<div class="window-container" style="width: {width}px;height: {height}px;max-width: 100%;">' +
+            '<i class="fa fa-circle-o-notch fa-spin"></i> 加载页面中...</div>' +
+            '</div>';
+        tpl = tpl.replaceAll('{width}',settings.width).replaceAll('{height}',settings.height);
+        var $mask = $this.append(tpl).find('.window-mask:last-child');
+        var $container = $mask.find('.window-container');
+        var wh = $(window).height();
+        var h = settings.height;
+        if(wh<h) {
+            h = wh;
+        }
+        var top = (wh-h)/2;
+        $container.css({height:h,top :top-50});
+        $container.animate({top:top},100);
+        var bindEvent = function () {
+            $container.append('<div class="window-close window-close-btn"><i class="fa fa-close"></i></div>');
+            //绑定关闭事件
+            $container.find('.window-close').off().on('click',function () {
+                if(typeof settings.beforeClose === 'function'){
+                    if(!settings.beforeClose()){
+                        return;
+                    }
+                }
+                var $this = $(this);
+                $container.animate({top:'-=50'},100,function () {
+                    $this.closest('.window-mask').remove();
+                    if(typeof settings.afterClose === 'function'){
+                        settings.afterClose();
+                    }
+                });
+            });
+        };
+        bindEvent();
+        try{
+            if(settings.target.indexOf('/') >= 0){
+                $.ajaxPrefix({
+                    url : settings.target,
+                    success : function (res) {
+                        if(settings.url !== '') {
+                            $.ajaxJson({
+                                url: settings.url,
+                                success: function (r) {
+                                    var html = template.render(res, r);
+                                    $container.html(html);
+                                    bindEvent();
+                                }
+                            });
+                        }else{
+                            $container.html(res);
+                            bindEvent();
+                        }
+                    }
+                });
+            }
+            else if (settings.target.startsWith('<')){
+                if(settings.url !== '') {
+                    $.ajaxJson({
+                        url: settings.url,
+                        success: function (r) {
+                            var html = template.render(settings.target, r);
+                            $container.html(html);
+                            bindEvent();
+                        }
+                    });
+                }else{
+                    $container.html(settings.target);
+                    bindEvent();
+                }
+            }
+            else {
+                if(settings.url !== '') {
+                    $.ajaxJson({
+                        url: settings.url,
+                        success: function (r) {
+                            var html = template.render($(settings.target).html(), r);
+                            $container.html(html);
+                            bindEvent();
+                        }
+                    });
+                }else{
+                    $container.html($(settings.target).html());
+                    bindEvent();
+                }
+            }
+        }catch (e) {
+            console.error(e);
+        }
+    }
 
 }(jQuery));
 
@@ -256,7 +355,7 @@ $.extend(String.prototype, {
         return (this.toLowerCase() === 'true')
     },
     toJson: function() {
-        var json = this
+        var json = this;
 
         try {
             if (typeof json == 'object') json = json.toString()
@@ -267,7 +366,7 @@ $.extend(String.prototype, {
         }
     },
     toObj: function() {
-        var obj = null
+        var obj = null;
         try {
             obj = (new Function('return '+ this))()
         } catch (e) {

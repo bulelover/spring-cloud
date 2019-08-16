@@ -28,3 +28,9 @@ HELP.md
 ### VS Code ###
 .vscode/
 out/
+src/main/resources/rebel.xml
+cloud-provider/src/main/resources/rebel.xml
+cloud-zuul/src/main/resources/rebel.xml
+cloud-discovery/src/main/resources/rebel.xml
+auth-server/src/main/resources/rebel.xml
+cloud-client/src/main/resources/rebel.xml

@@ -1,0 +1,57 @@
+<#--引入CSS依赖-->
+<link href="/static/utils/xTree/jquery-xtree.css" rel="stylesheet">
+<link href="/static/lib/bootStrap/table/bootstrap-table.min.css" rel="stylesheet">
+<link href="/static/app.css" rel="stylesheet">
+
+<div class="index-header">
+    <span class="index-title" id="indexTitle" data-name="${loginer.realName!}">欢迎您，${loginer.realName!}</span>
+</div>
+<div class="index-container">
+    <div class="index-menu">
+        <div id="indexMenu" class="xtree-box large">
+            <div data-id="index" data-pid="" data-url="/page?tg=system/home" data-title="首页" data-color="blue" data-icon="home"></div>
+            <div data-id="system" data-pid="" data-title="系统管理" data-color="blue"></div>
+            <div data-id="system-user" data-pid="system" data-title="用户管理" data-url="/page?tg=system/user/list" data-icon="user"></div>
+            <div data-id="system-role" data-pid="system" data-title="角色管理" data-url="/page?tg=system/role/list"></div>
+            <div data-id="gdws" data-pid="" data-title="村医系统" data-color="blue"></div>
+            <div data-id="gdws-sql" data-pid="gdws" data-title="升级SQL管理" data-url="/page?tg=gdws/sql/list" data-icon="file"></div>
+        </div>
+
+    </div>
+    <div id="indexBody" class="index-body"></div>
+</div>
+<div class="index-footer">
+    <span class="index-title">Copyright © 2018-${.now?string('yyyy')} cloud-demo  <a href="/client">client.cloud.com</a></span>
+</div>
+
+<!-- 模态框 -->
+<div class="modal fade" id="indexModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">信息提示</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body" style="max-height: 325px;overflow: auto;">
+
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<#-- 加载js 模块 -->
+<script type="text/javascript" src="/static/lib/bootStrap/table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/static/lib/bootStrap/table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/static/utils/xTree/jquery-xTree.js"></script>
+<script src="/static/lib/jquery/tableExport/tableExport.js"></script>
+<script src="/static/lib/jquery/jsPDF/jspdf.min.js"></script>
+<script src="/static/lib/jquery/jsPDF/jspdf-autotable.js"></script>
+<script src="/static/lib/bootStrap/table/export/xlsx.core.min.js"></script>
+<script src="/static/lib/bootStrap/table/export/bootstrap-table-export.js"></script>
+<script src="/static/app.js"></script>
+

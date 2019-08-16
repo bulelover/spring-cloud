@@ -35,7 +35,18 @@ public class Res implements Serializable {
         return res;
     }
 
-    private static Res custom(int flag,Object object){
+    public static Res custom(boolean flag, String errorMsg){
+        int f = flag?1:0;
+        if(flag){
+            errorMsg = null;
+        }
+        return Res.custom(f,errorMsg);
+    }
+
+    public static Res custom(int flag,Object object){
+        if(object == null){
+            return Res.custom(flag,null, null,  null);
+        }
         if(object instanceof String){
             return Res.custom(flag,(String) object,null,null);
         }
@@ -52,6 +63,10 @@ public class Res implements Serializable {
 
     public static Res success(Object object){
         return Res.custom(1,object);
+    }
+
+    public static Res success(){
+        return Res.custom(1,null);
     }
 
     public static Res fail(Object object){

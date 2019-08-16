@@ -1,0 +1,71 @@
+<div class="body-box">
+    <table id="dataTable"></table>
+</div>
+<script>
+    $(function () {
+        var $table = $('#dataTable');
+        $table.bootstrapTable($.sys.BSTableParams({
+            url: $.sys.url.provider('/user/query'),
+            queryParams: function (params) {
+                var options = $table.bootstrapTable('getOptions');
+                if (!options.pagination) {
+                    params.limit = options.totalRows;
+                }
+                return JSON.stringify({
+                    pageSize: params.limit, // 每页要显示的数据条数
+                    pageCurrent: Math.floor(params.offset/params.limit)+1, // 每页显示数据的开始行号
+                    pageOrderField: params.sort, // 要排序的字段
+                    pageOrder: params.order === 'asc', // 排序规则
+                    username: xClientUsername,
+                    token: xClientToken,
+                    pageSearch : params.search
+                });
+            },
+            columns: [
+                {
+                    field: '',
+                    title: '序号',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条
+                        var pageNumber = $table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页
+                        return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号
+                    }
+                }, {
+                    field: 'realName',
+                    title: '真实姓名',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }, {
+                    field: 'phone',
+                    title: '手机号',
+                    align: 'center',
+                    valign: 'middle',
+                    // sortable: true
+                }, {
+                    field: 'idNo',
+                    title: '身份证号',
+                    align: 'center',
+                    valign: 'middle',
+                    // sortable: true
+                }, {
+                    field: 'state',
+                    title: '状态',
+                    align: 'center',
+                    valign: 'middle',
+                    // sortable: true,
+                    formatter: function (value, row, index) {
+                        return value === '0' ? '禁用' : '正常';
+                    }
+                }]
+        }));
+
+        $(window).resize(function () {
+            //监听窗口变化时 更改表格窗体大小
+            $table.bootstrapTable('resetView',{
+                height: $box.height() - 10
+            });
+        });
+    });
+</script>

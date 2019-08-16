@@ -9,7 +9,7 @@
     <div class="card" style="width: 450px;margin:20px auto;">
         <div class="card-header" style="background: #9fcdff;color: #0001ff;"><b>欢迎登录</b></div>
         <div class="card-body">
-            <form id="loginForm" class="layui-form layui-form-pane" role="form">
+            <form id="loginForm">
                 <div class="form-group">
                     <label for="username">账 号</label>
                     <input type="text" id="username" class="form-control" onkeyup="this.value=$.trim(this.value);" name="username" placeholder="请输入账号">
@@ -35,7 +35,7 @@
         var $body = $('body');
         if(!($.isBlank(xClientUsername) || $.isBlank(xClientToken))){
             $.ajaxPrefix({
-                url : '/admin',
+                url : '/client/admin',
                 type:'GET',
                 async: false,
                 data : {
@@ -70,7 +70,7 @@
             $tips.text('正在登录中，请稍后...');
             setTimeout(function () {
                 $.ajaxPrefix({
-                    url : '/main/auth',
+                    url : '/client/main/auth',
                     contentType: "application/json",
                     data : $('#loginForm').serializeJsonSfy(),
                     type : 'POST',
@@ -81,7 +81,7 @@
                             sessionStorage.setItem("x-client-username", username);
                             sessionStorage.setItem("x-client-token", res.token);
                             $.ajaxPrefix({
-                                url : '/admin',
+                                url : '/client/admin',
                                 type:'POST',
                                 data : {
                                     token: res.token,
@@ -110,7 +110,6 @@
                     error : function (err) {
                         console.error(err);
                         $tips.text(err.responseText).fadeIn('fast');
-
                     }
                 });
             },500);

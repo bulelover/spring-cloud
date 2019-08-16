@@ -27,7 +27,7 @@ public class LoginController {
 
     @RequestMapping("/main")
     public String login(){
-        return "system/admin/login";
+        return "admin/login";
     }
 
     @PostMapping("/main/auth")
@@ -39,6 +39,11 @@ public class LoginController {
 
     @RequestMapping("/admin")
     public String admin(){
-        return "system/admin/index";
+        return "admin/index";
+    }
+
+    @RequestMapping("/page")
+    public String page(String tg){
+        return "admin/"+tg;
     }
 }
